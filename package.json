@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "node index.js",
-    "test": "jest --detectOpenHandles"
+    "test": "vitest --run --coverage",
+    "test:watch": "vitest"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +14,8 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "jest": "^29.5.0",
-    "supertest": "^6.3.3"
+    "@vitest/coverage-c8": "^0.30.1",
+    "supertest": "^6.3.3",
+    "vitest": "^0.30.1"
   }
 }

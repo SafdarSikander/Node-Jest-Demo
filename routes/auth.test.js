@@ -1,3 +1,4 @@
+import { it, describe, expect, afterAll } from 'vitest';
 const request = require('supertest');
 const { app, server } = require('../index');
 
@@ -8,6 +9,7 @@ afterAll(() => {
 describe('User Registration API', () => {
 
     it('should add a new user to the local array and return success message and user object', async () => {
+
         const res = await request(app)
             .post('/register')
             .send({ email: 'test@example.com', password: 'password123', firstName: 'John' });
