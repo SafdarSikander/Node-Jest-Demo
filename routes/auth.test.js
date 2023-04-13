@@ -12,14 +12,14 @@ describe('User Registration API', () => {
 
         const res = await request(app)
             .post('/register')
-            .send({ email: 'test@example.com', password: 'password123', firstName: 'John' });
+            .send({ email: 'test@example.com', password: 'password123', name: 'John' });
 
         expect(res.statusCode).toEqual(201);
         expect(res.body.message).toEqual('User registered successfully');
         expect(res.body.user.id).toBeTruthy();
         expect(res.body.user.email).toEqual('test@example.com');
         expect(res.body.user.password).toEqual('password123');
-        expect(res.body.user.firstName).toEqual('John');
+        expect(res.body.user.name).toEqual('John');
     });
 });
 
@@ -35,7 +35,7 @@ describe('User Login API', () => {
         expect(res.body.user.id).toEqual('abc123');
         expect(res.body.user.email).toEqual('test@example.com');
         expect(res.body.user.password).toEqual('password123');
-        expect(res.body.user.firstName).toEqual('John');
+        expect(res.body.user.name).toEqual('John');
 
     });
 
@@ -58,7 +58,7 @@ describe('Get User API', () => {
         expect(res.body.user.id).toEqual('abc123');
         expect(res.body.user.email).toEqual('test@example.com');
         expect(res.body.user.password).toEqual('password123');
-        expect(res.body.user.firstName).toEqual('John');
+        expect(res.body.user.name).toEqual('John');
 
     });
 
