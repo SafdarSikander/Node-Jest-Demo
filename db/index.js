@@ -3,4 +3,4 @@ const db = new Database('dummy.db', { verbose: console.log });
 
 
 
-module.exports = db;
+module.exports = { db, Database };
