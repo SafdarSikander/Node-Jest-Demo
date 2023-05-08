@@ -5,21 +5,6 @@ import { app, server } from '../index';
 import Database from 'better-sqlite3';
 
 vi.mock('better-sqlite3', () => {
-    const mockDb = {
-        // Define mock methods for the database object
-        prepare: vi.fn(),
-        transaction: vi.fn(),
-        close: vi.fn(),
-    };
-    const mockBetterSqlite3 = {
-        // Define mock methods for the module
-        default: vi.fn().mockReturnValue(mockDb),
-    };
-    return mockBetterSqlite3;
-});
-
-
-vi.mock('better-sqlite3', () => {
     return {
         default: vi.fn().mockReturnValue({
             // Define mock methods for the database object
