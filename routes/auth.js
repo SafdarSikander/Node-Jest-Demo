@@ -1,39 +1,47 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-// Local array to store user data
-let users = [{ id: 'abc123', email: 'test@example.com', password: 'password123', firstName: 'John', }];
+import { db } from '../db/index.js';
+
+// Create the users table if it does not exist
+// db.prepare(`CREATE TABLE IF NOT EXISTS users (
+//     id INTEGER PRIMARY KEY,
+//     name TEXT,
+//     email TEXT UNIQUE,
+//     password TEXT
+//   )`).run();
 
 
 // API endpoint to register a new user
 router.post('/register', (req, res) => {
-    const { email, password, firstName } = req.body;
+    const { email, password, name } = req.body;
 
-    // Generate a unique user ID
-    const userId = Math.random().toString(36).substring(7);
+    // Check if a user with the same email already exists
+    const existingUser = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+    if (existingUser) {
+        return res.status(409).json({ message: 'Email already exists' });
+    }
 
     // Create a new user object
-    const newUser = {
-        id: userId,
-        email: email,
-        password: password,
-        firstName: firstName,
-    };
+    const stmt = db.prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
+    const result = stmt.run(name, email, password);
 
-    // Add the new user to the local array
-    users.push(newUser);
+    if (result.changes === 0) {
+        return res.status(500).json({ message: 'Failed to register user' });
+    }
 
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
+    res.status(201).json({ message: 'User registered successfully', user: user });
 });
+
 
 // API endpoint to validate and return user data for login
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
 
     // Find the user with the provided email and password
-    const user = users.find((u) => u.email === email && u.password === password);
-    // console.log('email:', email);
-    // console.log('password:', password);
-    // console.log('users:', users);
+    const stmt = db.prepare('SELECT * FROM users WHERE email = ? AND password = ?');
+    const user = stmt.get(email, password);
+
     if (user) {
         res.status(200).json({ message: 'User logged in successfully', user: user });
     } else {
@@ -46,7 +54,8 @@ router.get('/users/:id', (req, res) => {
     const userId = req.params.id;
 
     // Find the user with the provided ID
-    const user = users.find((u) => u.id === userId);
+    const stmt = db.prepare('SELECT * FROM users WHERE id = ?');
+    const user = stmt.get(userId);
 
     if (user) {
         res.status(200).json({ user: user });
@@ -55,5 +64,6 @@ router.get('/users/:id', (req, res) => {
     }
 });
 
+
 /* Exporting the router. */
-module.exports = router;
+export default router;

@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 const PORT = 3000;
 
-const auth = require('./routes/auth');
+import auth from './routes/auth.js';
 
 // Middleware to parse JSON body
 app.use(express.json());
@@ -11,8 +11,7 @@ app.use('/', auth);
 
 let server = app.listen(PORT, () => console.log(`App listening on port ${PORT}`));
 
-
-module.exports = {
+export {
     app,
     server,
 };

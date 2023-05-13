@@ -3,17 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "server": "node index.js",
-    "test": "jest --detectOpenHandles"
+    "server:watch": "nodemon index.js",
+    "test": "vitest --run --coverage",
+    "test:watch": "vitest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^8.3.0",
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "jest": "^29.5.0",
-    "supertest": "^6.3.3"
+    "@vitest/coverage-c8": "^0.30.1",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3",
+    "vitest": "^0.30.1"
   }
 }
