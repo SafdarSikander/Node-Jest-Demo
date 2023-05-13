@@ -1,7 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const sqlite = require('better-sqlite3');
-const db = sqlite('./db.db');
+import { db } from '../db/index.js';
 
 // Create the users table if it does not exist
 db.prepare(`CREATE TABLE IF NOT EXISTS users (
@@ -67,4 +66,4 @@ router.get('/users/:id', (req, res) => {
 
 
 /* Exporting the router. */
-module.exports = router;
+export default router;
