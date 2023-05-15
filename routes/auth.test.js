@@ -26,7 +26,7 @@ describe('Test database creation', () => {
 });
 
 describe('User Registration API', () => {
-    it('should add a new user to the local array and return success message and user object', async () => {
+    it('should add a new to db and return success message and user object', async () => {
         db.prepare.mockImplementation(registerSuccessMocking)
         const user = { email: 'test@example.com', password: 'password123', name: 'John' }
         const res = await request(app)
@@ -51,7 +51,7 @@ describe('User Registration API', () => {
 });
 
 describe('User Login API', () => {
-    it('should return user data if credentials are valid', async () => {
+    it('should return user', async () => {
         db.prepare.mockImplementation(loginSuccessMocking)
         const user = { email: 'test@example.com', password: 'password123' }
         const res = await request(app)
@@ -63,7 +63,7 @@ describe('User Login API', () => {
         expect(res.body.user.email).toEqual(user.email);
     });
 
-    it('should return an error message if credentials are invalid', async () => {
+    it('should return an error message', async () => {
         db.prepare.mockImplementation(loginFailMocking)
         const user = { email: 'test@example.com', password: 'wrongpassword' }
         const res = await request(app)
@@ -76,7 +76,7 @@ describe('User Login API', () => {
 });
 
 describe('Get User API', () => {
-    it('should return user data if user ID is found', async () => {
+    it('should return user\'s data', async () => {
         db.prepare.mockImplementation(getUserSuccessMocking)
         const res = await request(app).get('/users/1');
         expect(res.statusCode).toEqual(200);
@@ -85,7 +85,7 @@ describe('Get User API', () => {
         expect(res.body.user.name).toBeDefined();
     });
 
-    it('should return an error message if user ID is not found', async () => {
+    it('should return an error user not found', async () => {
         db.prepare.mockImplementation(getUserFailMocking)
         const res = await request(app).get('/users/100');
         expect(res.statusCode).toEqual(404);
