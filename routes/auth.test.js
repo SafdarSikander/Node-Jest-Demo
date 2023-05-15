@@ -8,8 +8,9 @@ vi.mock('better-sqlite3', () => {
     return {
         default: vi.fn().mockReturnValue({
             // Define mock methods for the database object
-            name: 'safdar',
-            prepare: vi.fn(),
+            prepare: vi.fn().mockReturnValue({
+                run: vi.fn(),
+            }),
             transaction: vi.fn(),
             close: vi.fn(),
         }),
